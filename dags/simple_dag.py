@@ -11,14 +11,17 @@ from datetime import datetime, timedelta
 
 default_args = {
     'retries': 5,
-    'retry_delay': timedelta(minutes=5)
+    'retry_delay': timedelta(minutes=5),
+    'email_on_failure': True,
+    'email_on_retry': True,
+    'email': 'admin@astro.com'
 }
 
 
 def _downloading_data(ti, **kwargs):
     with open('/tmp/my_file.txt', 'w') as f:
         f.write('my_data')
-    ti.xcom_push(key=-'my_key', value=43)
+    ti.xcom_push(key='my_key', value=43)
 
 
 def _checking_data(ti):
@@ -30,7 +33,7 @@ def _failure(context):
     print('I failed, on callback failure')
 
 
-with DAG(dag_id='simple_dag', schedule_interval="@daily",
+with DAG(dag_id='simple_dag', default_args=default_args, schedule_interval="@daily",  # timedelta(days=1),
          start_date=days_ago(3), catchup=True) as dag:
 
     downloading_data = PythonOperator(
@@ -46,14 +49,20 @@ with DAG(dag_id='simple_dag', schedule_interval="@daily",
     waiting_for_data = FileSensor(
         task_id='waiting_for_data',
         fs_conn_id='fs_default',
-        filepath='my_file.txt'
+        filepath='/tmp/my_file.txt'
     )
 
     processing_data = BashOperator(
         task_id='processing_data',
-        bash_command='exit 1',
+        bash_command='exit 0',
         on_failure_callback=_failure
     )
+
+    # downloading_data.set_downstream(waiting_for_data)
+    # waiting_for_data.set_downstream(processing_data)
+
+    # processing_data.set_upstream(waiting_for_data)
+    # waiting_for_data.set_upstream(downloading_data)
 
     # cross_downstream([downloading_data, checking_data],
     #                  [waiting_for_data, processing_data])
