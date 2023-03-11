@@ -1,10 +1,14 @@
-Overview
-========
+# Overview
 
-Welcome to Astronomer! This project was generated after you ran 'astrocloud dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+---
 
-Project Contents
-================
+![image](https://github.com/ovokpus/my-airflow-learning-project/blob/main/img/airflow-image.png)
+
+---
+
+This project was generated after you ran 'astrocloud dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+
+# Project Contents
 
 Your Astronomer project contains the following files and folders:
 
@@ -16,8 +20,7 @@ Your Astronomer project contains the following files and folders:
 - plugins: Add custom or community plugins for your project to this file. It is empty by default.
 - airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
 
-Deploy Your Project Locally
-===========================
+# Deploy Your Project Locally
 
 1. Start Airflow on your local machine by running 'astrocloud dev start'.
 
@@ -35,12 +38,10 @@ Note: Running 'astrocloud dev start' will start your project with the Airflow We
 
 You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
 
-Deploy Your Project to Astronomer
-=================================
+# Deploy Your Project to Astronomer
 
 If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://docs.astronomer.io/cloud/deploy-code/
 
-Contact
-=======
+# Contact
 
 The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support team: https://support.astronomer.io/
